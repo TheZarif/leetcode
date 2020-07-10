@@ -4,6 +4,8 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# For every node, find the maximum path sum. 
+# Complexity: O(n^2)
 class Solution:
     def maxPathSum(self, root: TreeNode) -> int:
         maxsum=root.val
