@@ -1,0 +1,40 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+# 
+# Recurse from root to leaf nodes
+# On leaf node, return digit as str in list
+# On other nodes, append digit at beginning of each item in list returned by each leaf node
+# Complexity O(n) as each node is visited once
+
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        
+        def recPath(node):
+            if node is None:
+                return []
+            if not node.left and not node.right:
+                return [str(node.val)]
+            sol=[]
+            if node.left:
+                l=recPath(node.left)
+                for i in range(len(l)):
+                    l[i]=str(node.val)+l[i]
+                sol.extend(l)
+            if node.right:
+                r=recPath(node.right)
+                for i in range(len(r)):
+                    r[i]=str(node.val)+r[i]
+                sol.extend(r)
+            return sol
+        
+        
+        nums=recPath(root)
+        sum=0
+        for num in nums:
+            sum+=int(num)
+        return sum
+            
