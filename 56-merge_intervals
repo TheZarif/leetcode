@@ -1,0 +1,32 @@
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        # init a stack with first element of list
+        # for each next interval in list  
+        # for items in stack, keep merging and add to stack
+        # Could be improved by sorting list initially
+        # Complexity O(n^2)
+        def merge(i1, i2):
+            i3=[0,0]
+            if i1[0]<=i2[0]<=i1[1] or i2[0]<=i1[0]<=i2[1]:
+                i3[0]=min(i1[0],i2[0])
+                i3[1]=max(i1[1],i2[1])
+                return i3
+            return None
+        
+        i=0
+        merged=[]
+        while i<len(intervals):
+            j=0
+            i3=intervals[i]
+            while True:
+                if j>=len(merged):
+                    break
+                i3New=merge(i3,merged[j])
+                if i3New!=None:
+                    merged.pop(j)
+                    i3=i3New
+                    continue
+                j+=1
+            merged.append(i3)
+            i+=1
+        return merged
