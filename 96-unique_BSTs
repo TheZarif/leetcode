@@ -1,0 +1,58 @@
+class Solution:
+    # Recursive:
+    # Simulate the different tree constructions
+    # Recursively simulate a BST subtree for a number of items
+    # Pick a root node, left subtree will be formed by smaller numbers
+    # and right subtree will be formed by larger nums 
+    # for all the different left subtrees, 
+    # find combination number with number of right subtrees
+    # Complexity: Time- O(n^2) , Space- O(n)
+
+    # Iterative:
+    # build up dp table. Same as recursive method but faster
+    # Complexity: Time- O(n^2) , Space- O(n)
+    def numTrees(self, n: int) -> int:
+        sols_dict={}
+        def recTrees(n):
+            if n in sols_dict:
+                return sols_dict[n]
+            if n==0:
+                return 0
+            if n==1:
+                return 1
+            if n==2:
+                return 2
+            if n==3:
+                return 5
+            if n==4:
+                return 14
+            
+            res=0
+            for i in range(1,n+1):
+                l=recTrees(i-1)
+                r=recTrees(n-i)
+                if l>0 and r>0:
+                    res+=l*r
+                else:
+                    res+=l+r
+            sols_dict[n]=res
+            return res
+        
+        def iterTrees(n):                    
+            dp=[0,1,2,5]
+            for i in range(4,n+1):
+                dp.append(0)
+
+            for i in range(4,n+1):
+                res=0
+                for j in range(0,i):
+                    l=dp[j]
+                    r=dp[i-j-1]
+                    if l>0 and r>0:
+                        res+=l*r
+                    else:
+                        res+=l+r
+                dp[i]=res
+            return dp[n]
+            
+        return iterTrees(n)
