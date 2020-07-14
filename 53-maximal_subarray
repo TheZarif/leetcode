@@ -1,0 +1,21 @@
+class Solution:
+# Init sum and maxSum to 0
+# Loop through the list 
+# if previous sum added to current number is less than current number
+# start new sum.
+# Update maxSum if running sum is greater than previous MaxSum
+# Complexity O(n)
+    def maxSubArray(self, nums: List[int]) -> int:
+        s=None
+        max_s=None
+        for i in range(len(nums)):
+            if s is None:
+                s=nums[i]
+            elif nums[i] > nums[i]+s:
+                s=nums[i]
+            else:
+                s+=nums[i]
+            if max_s is None or s>max_s:
+                max_s=s
+        
+        return max_s
