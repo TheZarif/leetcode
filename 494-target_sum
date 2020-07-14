@@ -1,0 +1,38 @@
+class Solution:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        # consider two subsets of nums, A and B where A >= B 
+        # where A consists of all positives and B all negatives
+        # Then,
+        # S=A-B, where S is absolute value of target
+        # and T=A+B, where T is sum of all numbers in nums 
+        # Then, B=(T-S)/2
+        # Then the problem becomes find the subset B such that sum of numbers in B=(T-S)/2
+        # This becomes a 0-1 Knapsack problem
+        #NOTE: if S>T, 0 possible solutions
+        #NOTE: if (T-S) is not even, 0 possible solutions
+        # Complexity: O(nW), the same as 0-1 knapsack
+        if len(nums)==0:
+            return 0
+        T=sum(nums)
+        S=abs(S)
+        if S>T:
+            return 0
+        if (T-S)%2!=0:
+            return 0
+        tar=int((T-S)/2)
+        dp={}
+        
+        def knapsack(n, tar):
+            # print(n,tar)
+            nonlocal nums 
+            if n<0 and tar==0:
+                return 1
+            if tar<0 or n<0:
+                return 0
+            if (n,tar) in dp:
+                return dp[(n,tar)]
+            dp[(n,tar)]=knapsack(n-1,tar)+knapsack(n-1,tar-nums[n])
+            return dp[(n,tar)]
+
+            
+        return knapsack(len(nums)-1,tar)
