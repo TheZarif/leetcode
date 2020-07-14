@@ -1,0 +1,14 @@
+class Solution:
+# Complexity: O(n)
+    def lengthOfLastWord(self, s: str) -> int:
+        s_ar_rev = reversed(list(s))
+        
+        count = 0
+        for c in s_ar_rev:
+            if c != ' ':
+                count += 1
+            elif count > 0:
+                break
+        
+        return count
+        
