@@ -1,0 +1,44 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    # # Recursive:
+    # Simulate the different tree constructions for list a
+    # Initial recursive call will call function for range (0,n-1)
+    # Recursively generate list of unique BSTs given a range (n1,n2)
+    # Base Case: if n2>n1 return empty list
+    # Base Case 2: if n2==n1: return TreeNode with value a[n1]
+    # For each element i in list a, pick a root node
+    # left subtrees will be formed by indices < i
+    # and right subtrees will be formed by indices > i
+    # Create BST for all combinations of left and right subtrees
+    # Complexity: Time- O(n^2) , Space- O(n^2)
+    def generateTrees(self, n: int) -> List[TreeNode]:
+        if n==0:
+            return []
+        a=list(range(1,n+1))
+        dp={}
+        def recTrees(n1,n2) -> List[TreeNode]:
+            nonlocal a
+            if (n1,n2) in dp:
+                return dp[(n1,n2)]
+            if n2<n1:
+                return [None]
+            if n2==n1:
+                return [TreeNode(a[n1])]
+            res=[]
+            for i in range(n1,n2+1):
+                ls=recTrees(n1,i-1)
+                rs=recTrees(i+1,n2)
+                for l in ls:
+                    for r in rs:
+                        node=TreeNode(a[i])
+                        node.left=l
+                        node.right=r
+                        res.append(node)
+            dp[(n1,n2)]=res
+            return res
+        return recTrees(0,n-1)
